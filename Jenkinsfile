@@ -83,6 +83,18 @@ pipeline {
         }
       }
     }
+
+    stage('Deploy to Container') {
+      steps {
+        script {
+          sh '''
+            docker stop starbucks || true
+            docker rm starbucks || true
+            docker run -d --name starbucks -p 3000:3000 $REPO:$IMAGE_TAG
+          '''
+        }
+      }
+    }
   }
 
   post {
