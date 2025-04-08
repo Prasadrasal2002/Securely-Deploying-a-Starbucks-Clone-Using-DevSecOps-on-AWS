@@ -21,7 +21,7 @@ pipeline {
 
     stage('Git Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/DevOpsInstituteMumbai-wq/Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS.git'
+        git branch: 'main', url: 'https://github.com/Prasadrasal2002/Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS.git'
       }
     }
 
