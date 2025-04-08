@@ -90,7 +90,7 @@ pipeline {
           sh '''
             docker stop starbucks || true
             docker rm starbucks || true
-            docker run -d --name starbucks -p 3000:3000 $REPO:$IMAGE_TAG
+            docker run -d --name starbucks -p 3000:80 $REPO:$IMAGE_TAG
           '''
         }
       }
