@@ -3,7 +3,7 @@ pipeline {
 
   tools {
     jdk 'jdk17'
-    nodejs 'node23'
+    nodejs 'node18'
   }
 
   environment {
@@ -13,6 +13,7 @@ pipeline {
   }
 
   stages {
+
     stage('Clean Workspace') {
       steps {
         cleanWs()
@@ -21,18 +22,20 @@ pipeline {
 
     stage('Git Checkout') {
       steps {
-        git credentialsId: 'github-ssh', url: 'git@github.com:Prasadrasal2002/Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS.git'
-
+        git branch: 'main', 
+            url: 'git@github.com:Prasadrasal2002/Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS.git', 
+            credentialsId: 'github-ssh'
       }
     }
 
-    stage('Sonarqube Analysis') {
+    stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('sonar-server') {
           sh '''
             $SCANNER_HOME/bin/sonar-scanner \
-            -Dsonar.projectName=starbucks \
-            -Dsonar.projectKey=starbucks
+              -Dsonar.projectName=starbucks-ci \
+              -Dsonar.projectKey=starbucks-ci \
+              -Dsonar.sources=.
           '''
         }
       }
@@ -41,37 +44,50 @@ pipeline {
     stage('Code Quality Gate') {
       steps {
         script {
-          waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+          waitForQualityGate abortPipeline: true, credentialsId: 'Sonar-token'
         }
       }
     }
 
     stage('Install NPM Dependencies') {
       steps {
-        sh 'npm install'
+        sh '''
+          npm install
+          # Optional: auto-fix vulnerabilities
+          # npm audit fix || true
+        '''
       }
     }
 
-    stage('OWASP FS Scan') {
+    stage('OWASP Dependency Check') {
       steps {
-        dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit -n', odcInstallation: 'DP-Check'
-        dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        withCredentials([string(credentialsId: 'nvd-api-key-id', variable: 'NVD_API_KEY')]) {
+          dependencyCheck additionalArguments: "--format XML --project starbucks-ci --nvdApiKey ${env.NVD_API_KEY}", odcInstallation: 'DP-Check'
+          dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+        }
       }
     }
 
-    stage('Trivy Scan') {
+    stage('Trivy Vulnerability Scan') {
       steps {
-        sh 'trivy fs . > trivy.txt || true'
+        sh '''
+          trivy fs . > trivy-fs-report.txt || true
+          # Optional: Docker image scan
+          # trivy image $REPO:$IMAGE_TAG > trivy-image-report.txt || true
+        '''
       }
     }
 
     stage('Build Docker Image') {
       steps {
-        sh 'docker build -t $REPO:$IMAGE_TAG .'
+        sh '''
+          echo "Building Docker image..."
+          docker build -t $REPO:$IMAGE_TAG .
+        '''
       }
     }
 
-    stage('Docker Scout') {
+    stage('Docker Scout Scan') {
       steps {
         script {
           withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
@@ -85,15 +101,14 @@ pipeline {
       }
     }
 
-    stage('Deploy to Container') {
+    stage('Deploy to Docker Container') {
       steps {
-        script {
-          sh '''
-            docker stop starbucks || true
-            docker rm starbucks || true
-            docker run -d --name starbucks -p 3000:80 $REPO:$IMAGE_TAG
-          '''
-        }
+        sh '''
+          echo "Deploying container..."
+          docker stop starbucks || true
+          docker rm starbucks || true
+          docker run -d --name starbucks -p 3000:80 $REPO:$IMAGE_TAG
+        '''
       }
     }
   }
@@ -103,10 +118,10 @@ pipeline {
       echo 'CI Pipeline execution completed.'
     }
     success {
-      echo 'CI passed. Code is clean and image is built.'
+      echo 'CI passed. Code is clean and image is built successfully.'
     }
     failure {
-      echo 'CI pipeline failed!'
+      echo 'CI pipeline failed. Please check logs and fix issues.'
     }
   }
 }
