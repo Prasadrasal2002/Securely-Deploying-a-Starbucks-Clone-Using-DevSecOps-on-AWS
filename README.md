@@ -134,12 +134,12 @@ docker
 Credentials:
 To securely handle DockerHub credentials in Jenkins pipeline:
 DockerHub credentials 
-bash```
+```bash
 (Username = docker-hub-username and Password = password-dockerhub) and give the credentials an ID (e.g., "docker")
 ```
 
 sonarqube credentials:
-bash```
+```bash
 Go to sonar qube dashboard ---Administration---security---user---click token---generate----then copy---Add credential on Jenkins------select "secret-text" and add this token
 ```
 
