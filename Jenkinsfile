@@ -111,6 +111,21 @@ pipeline {
         '''
       }
     }
+
+    // New stage to push the Docker image to Docker Hub
+    stage('Push Docker Image') {
+      steps {
+        script {
+          withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            sh '''
+              echo "Pushing Docker image to Docker Hub..."
+              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+              docker push $REPO:$IMAGE_TAG
+            '''
+          }
+        }
+      }
+    }
   }
 
   post {
