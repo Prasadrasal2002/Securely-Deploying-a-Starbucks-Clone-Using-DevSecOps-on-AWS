@@ -5,6 +5,9 @@
 Launch an Instance (Ubuntu, 24.04, t2.large, 25 GB)
 Connect to the instance (Add port : 22 (inbound rule))
 
+![image](https://github.com/user-attachments/assets/997491c3-4930-44db-a12c-f89cabf8cdc2)
+
+
 **Update the packages**
 
 ```bash
@@ -13,7 +16,6 @@ sudo apt update -y
 ```
 
 **Install Docker:**
-
 
 ```bash
 sudo apt-get update
@@ -55,6 +57,12 @@ sudo systemctl enable jenkins
 jenkins --version
 ```
 
+![image](https://github.com/user-attachments/assets/c4723d72-4ba2-4856-85b7-a20c2e974548)
+
+
+![image](https://github.com/user-attachments/assets/38c1948e-9c16-4f08-a216-402fa76b24ab)
+
+
 **Access Jenkins:**
 
 - Add port : 8080 (inbound rule)
@@ -71,7 +79,10 @@ docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 ```bash
 sonar-scanner --version
 ```
-              
+
+![image](https://github.com/user-attachments/assets/20c44f0f-d386-4e49-afc4-4973100672cb)
+
+            
 **To access:**
 Add port : 9000 (inbound rule)
 publicIP:9000 (by default username & password is admin)
@@ -84,6 +95,9 @@ Steps:
 Go to sonarqube dashboard--->click on project:--->create--->add project name & project key (remember this values to used in jenkins pipeline)
 ```
 
+![image](https://github.com/user-attachments/assets/736eb010-0480-4c9b-a005-7ea57b5f85d7)
+
+
 **2)** Create Webhook:
 
 Steps:
@@ -92,6 +106,9 @@ Steps:
 Go to sonarqube dashboard--->click on Configuration--->Create---(add name = jenkins)---->{ url = http://<pub-ip/elastic-ip>:8080/sonarqube-webhook/ }---Save
 ```
 
+![image](https://github.com/user-attachments/assets/177ece92-7d0b-43dc-bb68-19005918bf1e)
+
+
 **3)** add Sonarqube Url on jenkins:
 
 steps:
@@ -99,6 +116,9 @@ steps:
 ```bash
 Go to sonarqube dashboard--->click on Manage Jenkins--->system--->Name = sonar-server (remember this values to used in jenkins pipeline)--->server Url = http://http://<pub-ip/elastic-ip>:9000
  ```
+
+![image](https://github.com/user-attachments/assets/9288484e-bff8-4aa0-9b20-c76484d2608d)
+
 
 **To install Trivy:**
 
@@ -115,7 +135,6 @@ sudo apt-get install trivy
 ```bash
 trivy --version
 ```
-
 
 **Install Yarn:**
 
@@ -150,6 +169,14 @@ chmod +x ~/.docker/cli-plugins/docker-scout
 docker scout version
 ```
 
+**Confirming Setup: Installing Jenkins, Docker & Security Tools with Versioning**
+
+![image](https://github.com/user-attachments/assets/05c1a792-7149-487e-b3f5-782929ac2951)
+
+
+![image](https://github.com/user-attachments/assets/df74035f-d708-4e2e-a7de-ad9d1ff72383)
+
+
 **install plugins on Jenkins dashboard:**
 
 Steps:
@@ -170,6 +197,12 @@ Go to "Dashboard" in your Jenkins web interface--->Navigate to "Manage Jenkins"-
 Click on the "Install without restart" button to install these plugins.
 ```
 
+![image](https://github.com/user-attachments/assets/bf5dcfe7-6877-447c-89de-2931176ca64f)
+
+
+![image](https://github.com/user-attachments/assets/a30c0ce7-aae5-4869-b271-2d799b8078dc)
+
+
 **Configure Tools:**
 
 After installing  plugin, you need to configure the tool.
@@ -183,13 +216,15 @@ Go to "Dashboard"--->"Manage Jenkins"--->"Global Tool Configuration."--->Find th
 **Tools:**
 { remember this tools name to used in jenkins pipeline }
 ```bash
-()
 nodejs(18)
 Install jdk(17)
 sonar-scanner
 Dp-Check
 docker
 ```
+
+![image](https://github.com/user-attachments/assets/1d5d1b53-0926-4a27-884a-0279e4107147)
+
 
 **Credentials:**
 To securely handle credentials in Jenkins pipeline:
