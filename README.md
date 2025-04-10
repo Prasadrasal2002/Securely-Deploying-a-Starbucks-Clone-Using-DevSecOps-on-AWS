@@ -206,6 +206,7 @@ To securely handle credentials in Jenkins pipeline:
 Go to sonar qube dashboard ---Administration---security---user---click token---generate----then copy---Add credential on Jenkins------select "secret-text" and add this token
 ```
 
+**Proceed with configuring your Jenkins pipeline to include these tools and credentials in your CI/CD process.**
 
 
 
