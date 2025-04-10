@@ -126,7 +126,7 @@ npm install -g yarn
 **Download Docker Scout:**
 
 (make sure to login to DockerHub account in browser)
-Go inside server on mobaxterm--->Login to dockerHub--->docker login -u <DockerHub-username>--->click enter--password of dockerhub--->lets install Docker Scout)
+Go inside server on mobaxterm--->Login to dockerHub--->docker login -u <DockerHub-username>--->click enter--->password of dockerhub--->lets install Docker Scout)
 
 ```bash
 curl -sSfL https://github.com/docker/scout-cli/releases/download/v1.17.0/docker-scout_1.17.0_linux_amd64.tar.gz -o ~/.docker/cli-plugins/docker-scout.tar.gz
@@ -177,14 +177,16 @@ After installing  plugin, you need to configure the tool.
 **Steps:**
 
 ```bash
-Go to "Dashboard"--->"Manage Jenkins"--->"Global Tool Configuration."--->Find the section for tools--->Add the tool's name, e.g., "DP-Check." (remember this tools name to used in jenkins pipeline)--->Save your settings.
+Go to "Dashboard"--->"Manage Jenkins"--->"Global Tool Configuration."--->Find the section for tools--->Add the tool's name, e.g., "DP-Check."--->Save your settings.
 ```
 
 **Tools:**
+{ remember this tools name to used in jenkins pipeline }
 ```bash
+()
 nodejs(18)
 Install jdk(17)
-sonarkube scanner
+sonar-scanner
 Dp-Check
 docker
 ```
