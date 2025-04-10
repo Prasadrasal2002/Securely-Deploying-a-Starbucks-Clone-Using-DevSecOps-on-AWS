@@ -3,6 +3,7 @@
 **Initial Setup and Deployment:**
 
 Launch an Instance (Ubuntu, 24.04, t2.large, 25 GB)
+
 Connect to the instance (Add port : 22 (inbound rule))
 
 ![image](https://github.com/user-attachments/assets/997491c3-4930-44db-a12c-f89cabf8cdc2)
