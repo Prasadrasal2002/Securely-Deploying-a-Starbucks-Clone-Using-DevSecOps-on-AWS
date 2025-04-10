@@ -219,7 +219,7 @@ Go to: https://nvd.nist.gov/developers/request-an-api-key--->2.	Sign up with you
 
 
 
-**Proceed with configuring your Jenkins pipeline to include these tools and credentials in your CI/CD process.**
+**Proceed with configuring Jenkins pipeline to include these tools and credentials in your CI/CD process.**
 
 
 
