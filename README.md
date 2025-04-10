@@ -203,8 +203,21 @@ To securely handle credentials in Jenkins pipeline:
 **sonarqube credentials:**
 
 ```bash
-Go to sonar qube dashboard ---Administration---security---user---click token---generate----then copy---Add credential on Jenkins------select "secret-text" and add this token
+Go to sonar qube dashboard ---Administration---security---user---click token---generate----then copy--->Manage Jenkins--->Credentials--->select "secret-text" and add this token
 ```
+
+**NVD API key Credentials:**
+
+```bash
+Go to: https://nvd.nist.gov/developers/request-an-api-key--->2.	Sign up with your email (free)--->You will get a key in your email--->Manage Jenkins--->Credentials--->select "secret-text"--->paste the NVD key you got from email
+```
+
+
+
+
+
+
+
 
 **Proceed with configuring your Jenkins pipeline to include these tools and credentials in your CI/CD process.**
 
