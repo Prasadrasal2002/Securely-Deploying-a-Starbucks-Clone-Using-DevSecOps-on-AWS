@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "starbucks-chart.fullname" . }}
+  labels:
+    {{- include "starbucks-chart.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: {{ .Values.service.protocol }}
+      name: {{ .Values.service.name }}
+  selector:
+    {{- include "starbucks-chart.selectorLabels" . | nindent 4 }}
