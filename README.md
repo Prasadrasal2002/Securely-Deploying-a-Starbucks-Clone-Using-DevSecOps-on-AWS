@@ -93,7 +93,7 @@ publicIP:9000 (by default username & password is admin)
 Steps:
 
 ```bash
-Go to sonarqube dashboard--->click on project:--->create--->add project name & project key (remember this values to used in jenkins pipeline)
+Go to sonarqube dashboard--->Administration--->click on project:--->create--->add project name & project key (remember this values to used in jenkins pipeline)
 ```
 
 ![image](https://github.com/user-attachments/assets/736eb010-0480-4c9b-a005-7ea57b5f85d7)
@@ -104,7 +104,7 @@ Go to sonarqube dashboard--->click on project:--->create--->add project name & p
 Steps:
 
 ```bash
-Go to sonarqube dashboard--->click on Configuration--->Create---(add name = jenkins)---->{ url = http://<pub-ip/elastic-ip>:8080/sonarqube-webhook/ }---Save
+Go to sonarqube dashboard--->Administration--->click on Configuration--->webhooks--->Create---(add name = jenkins)---->{ url = http://<pub-ip/elastic-ip>:8080/sonarqube-webhook/ }---Save
 ```
 
 ![image](https://github.com/user-attachments/assets/177ece92-7d0b-43dc-bb68-19005918bf1e)
