@@ -149,6 +149,8 @@ npm install -g yarn
 Go inside server on mobaxterm--->Login to dockerHub--->docker login -u <DockerHub-username>--->click enter--->password of dockerhub--->lets install Docker Scout)
 
 ```bash
+mkdir -p ~/.docker/cli-plugins/
+
 curl -sSfL https://github.com/docker/scout-cli/releases/download/v1.17.0/docker-scout_1.17.0_linux_amd64.tar.gz -o ~/.docker/cli-plugins/docker-scout.tar.gz
 ```
 
