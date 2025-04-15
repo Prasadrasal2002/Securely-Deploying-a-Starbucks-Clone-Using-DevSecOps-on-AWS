@@ -104,7 +104,8 @@ Steps:
 Go to sonarqube dashboard--->Administration--->click on Configuration--->webhooks--->Create---(add name = jenkins)---->{ url = http://<pub-ip/elastic-ip>:8080/sonarqube-webhook/ }---Save
 ```
 
-![image](https://github.com/user-attachments/assets/177ece92-7d0b-43dc-bb68-19005918bf1e)
+![image](https://github.com/user-attachments/assets/ef588eaf-b71b-43b8-bf96-83270b86d5b2)
+
 
 
 **3)** add Sonarqube Url on jenkins:
