@@ -70,6 +70,8 @@ newgrp docker
 sudo chmod 777 /var/run/docker.sock
 
 sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+
 
 ```
 
