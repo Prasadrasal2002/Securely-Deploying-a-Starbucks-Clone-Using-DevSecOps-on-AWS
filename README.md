@@ -16,15 +16,7 @@ sudo su
 sudo apt update -y
 ```
 
-**Install Docker:**
 
-```bash
-sudo apt-get update
-sudo apt-get install docker.io -y
-sudo usermod -aG docker $USER  # Replace with your system's username, e.g., 'ubuntu'
-newgrp docker
-sudo chmod 777 /var/run/docker.sock
-```
 
 **Install Jenkins for Automation:**
 - Install Jenkins on the EC2 instance to automate deployment:
@@ -66,6 +58,21 @@ jenkins --version
 - Add port : 8080 (inbound rule)
 - In a web browser using the public IP of your EC2 instance.
 publicIp:8080
+
+
+**Install Docker:**
+
+```bash
+sudo apt-get update
+sudo apt-get install docker.io -y
+sudo usermod -aG docker $USER  # Replace with your system's username, e.g., 'ubuntu'
+newgrp docker
+sudo chmod 777 /var/run/docker.sock
+
+sudo usermod -aG docker jenkins
+
+```
+
 
 **Install SonarQube and Trivy**
 - Install SonarQube and Trivy on the EC2 instance to scan for vulnerabilities.
