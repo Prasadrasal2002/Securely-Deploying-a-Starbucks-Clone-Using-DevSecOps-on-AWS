@@ -23,7 +23,7 @@ pipeline {
     stage('Git Checkout') {
       steps {
         git branch: 'main', 
-            url: 'git@github.com:Prasadrasal2002/Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS.git', 
+            url: 'https://github.com/Prasadrasal2002/Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS.git', 
             credentialsId: 'github-ssh'
       }
     }
@@ -32,6 +32,7 @@ pipeline {
       steps {
         withSonarQubeEnv('sonar-server') {
           sh '''
+            echo "Running SonarQube analysis..."
             $SCANNER_HOME/bin/sonar-scanner \
               -Dsonar.projectName=starbucks-ci \
               -Dsonar.projectKey=starbucks-ci \
@@ -44,6 +45,7 @@ pipeline {
     stage('Code Quality Gate') {
       steps {
         script {
+          echo "Waiting for SonarQube Quality Gate result..."
           waitForQualityGate abortPipeline: true, credentialsId: 'Sonar-token'
         }
       }
@@ -52,9 +54,8 @@ pipeline {
     stage('Install NPM Dependencies') {
       steps {
         sh '''
+          echo "Installing NPM dependencies..."
           npm install
-          # Optional: auto-fix vulnerabilities
-          # npm audit fix || true
         '''
       }
     }
@@ -62,6 +63,7 @@ pipeline {
     stage('OWASP Dependency Check') {
       steps {
         withCredentials([string(credentialsId: 'nvd-api-key-id', variable: 'NVD_API_KEY')]) {
+          echo "Running OWASP Dependency Check..."
           dependencyCheck additionalArguments: "--format XML --project starbucks-ci --nvdApiKey ${env.NVD_API_KEY}", odcInstallation: 'DP-Check'
           dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
         }
@@ -71,9 +73,8 @@ pipeline {
     stage('Trivy Vulnerability Scan') {
       steps {
         sh '''
+          echo "Running Trivy filesystem scan..."
           trivy fs . > trivy-fs-report.txt || true
-          # Optional: Docker image scan
-          # trivy image $REPO:$IMAGE_TAG > trivy-image-report.txt || true
         '''
       }
     }
@@ -90,8 +91,9 @@ pipeline {
     stage('Docker Scout Scan') {
       steps {
         script {
-          withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
+          withDockerRegistry(credentialsId: 'docker') {
             sh '''
+              echo "Running Docker Scout analysis..."
               docker scout quickview $REPO:$IMAGE_TAG || true
               docker scout cves $REPO:$IMAGE_TAG || true
               docker scout recommendations $REPO:$IMAGE_TAG || true
@@ -101,10 +103,24 @@ pipeline {
       }
     }
 
+    stage('Push Docker Image') {
+      steps {
+        script {
+          withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+            sh '''
+              echo "Pushing Docker image to Docker Hub..."
+              echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+              docker push $REPO:$IMAGE_TAG
+            '''
+          }
+        }
+      }
+    }
+
     stage('Deploy to Docker Container') {
       steps {
         sh '''
-          echo "Deploying container..."
+          echo "Deploying container locally..."
           docker stop starbucks || true
           docker rm starbucks || true
           docker run -d --name starbucks -p 3000:80 $REPO:$IMAGE_TAG
@@ -112,17 +128,25 @@ pipeline {
       }
     }
 
-    // New stage to push the Docker image to Docker Hub
-    stage('Push Docker Image') {
+    stage('Set up Kubeconfig') {
       steps {
-        script {
-          withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-            sh '''
-              echo "Pushing Docker image to Docker Hub..."
-              docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-              docker push $REPO:$IMAGE_TAG
-            '''
-          }
+        withCredentials([aws(credentialsId: 'aws-credentials')]) {
+          sh '''
+            echo "Setting up kubeconfig for EKS..."
+            aws eks --region ap-south-1 update-kubeconfig --name prasad-eks-BFwiEALc
+
+          '''
+        }
+      }
+    }
+
+    stage('Deploy to EKS with Helm') {
+      steps {
+        withCredentials([aws(credentialsId: 'aws-credentials')]) {
+          sh '''
+            echo "Deploying to EKS with Helm..."
+            helm upgrade --install starbucks ./starbucks-chart --namespace default --set image.tag=latest
+          '''
         }
       }
     }
@@ -130,13 +154,13 @@ pipeline {
 
   post {
     always {
-      echo 'CI Pipeline execution completed.'
+      echo 'CI/CD Pipeline execution completed.'
     }
     success {
-      echo 'CI passed. Code is clean and image is built successfully.'
+      echo '✅ CI/CD passed. Code is clean, image built, and deployed successfully.'
     }
     failure {
-      echo 'CI pipeline failed. Please check logs and fix issues.'
+      echo '❌ CI/CD pipeline failed. Please check logs and fix the issues.'
     }
   }
 }
