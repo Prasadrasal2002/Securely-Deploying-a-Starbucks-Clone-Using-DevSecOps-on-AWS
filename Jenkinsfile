@@ -13,7 +13,6 @@ pipeline {
   }
 
   stages {
-
     stage('Clean Workspace') {
       steps {
         cleanWs()
@@ -22,8 +21,8 @@ pipeline {
 
     stage('Git Checkout') {
       steps {
-        git branch: 'main', 
-            url: 'https://github.com/Prasadrasal2002/Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS.git', 
+        git branch: 'main',
+            url: 'https://github.com/Prasadrasal2002/Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS.git',
             credentialsId: 'github-ssh'
       }
     }
@@ -130,11 +129,15 @@ pipeline {
 
     stage('Set up Kubeconfig') {
       steps {
-        withCredentials([aws(credentialsId: 'aws-credentials')]) {
+        withCredentials([
+          string(credentialsId: 'aws-access-key', variable: 'AWS_ACCESS_KEY_ID'),
+          string(credentialsId: 'aws-secret-key', variable: 'AWS_SECRET_ACCESS_KEY')
+        ]) {
           sh '''
             echo "Setting up kubeconfig for EKS..."
+            export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+            export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
             aws eks --region ap-south-1 update-kubeconfig --name prasad-eks-BFwiEALc
-
           '''
         }
       }
@@ -142,9 +145,14 @@ pipeline {
 
     stage('Deploy to EKS with Helm') {
       steps {
-        withCredentials([aws(credentialsId: 'aws-credentials')]) {
+        withCredentials([
+          string(credentialsId: 'aws-access-key', variable: 'AWS_ACCESS_KEY_ID'),
+          string(credentialsId: 'aws-secret-key', variable: 'AWS_SECRET_ACCESS_KEY')
+        ]) {
           sh '''
             echo "Deploying to EKS with Helm..."
+            export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+            export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
             helm upgrade --install starbucks ./starbucks-chart --namespace default --set image.tag=latest
           '''
         }
