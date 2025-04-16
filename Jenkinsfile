@@ -34,8 +34,8 @@ pipeline {
           sh '''
             echo "Running SonarQube analysis..."
             $SCANNER_HOME/bin/sonar-scanner \
-              -Dsonar.projectName=starbucks-ci \
-              -Dsonar.projectKey=starbucks-ci \
+              -Dsonar.projectName=starbucks-sonar \
+              -Dsonar.projectKey=starbucks-sonar \
               -Dsonar.sources=.
           '''
         }
