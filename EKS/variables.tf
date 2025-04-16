@@ -1,33 +1,15 @@
 variable "cluster_name" {
-  description = "EKS cluster name"
-  type        = string
-  default     = "prasad-eks"
+  default = "prasad-eks"
 }
 
 variable "vpc_id" {
-  description = "Existing VPC ID"
-  type        = string
-  default     = "vpc-059591b76b17a4457"
+  default = "vpc-059591b76b17a4457"
 }
 
 variable "subnet_ids" {
-  description = "List of subnet IDs"
-  type        = list(string)
-  default     = [
-    "subnet-0956f23813c3f55b9",
-    "subnet-028125de1c2117bb0",
-    "subnet-017773966ffbc4fc4"
+  default = [
+    "subnet-0956f23813c3f55b9",  # ap-south-1a
+    "subnet-028125de1c2117bb0",  # ap-south-1b
+    "subnet-017773966ffbc4fc4"   # ap-south-1c
   ]
-}
-
-variable "eks_role_name" {
-  description = "Name of the EKS IAM role"
-  type        = string
-  default     = "eks-cluster-role"
-}
-
-variable "node_role_name" {
-  description = "Name of the EKS node IAM role"
-  type        = string
-  default     = "eks-node-role"
 }
