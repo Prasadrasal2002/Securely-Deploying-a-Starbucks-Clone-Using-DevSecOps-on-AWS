@@ -23,3 +23,4 @@ resource "aws_iam_policy" "eks_access_from_jenkins" {
 resource "aws_iam_role_policy_attachment" "jenkins_eks_access_attach" {
   role       = data.aws_iam_instance_profile.jenkins_profile.role_name
   policy_arn = aws_iam_policy.eks_access_from_jenkins.arn
+}
