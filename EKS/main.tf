@@ -43,4 +43,3 @@ resource "aws_security_group_rule" "allow_jenkins_to_eks" {
   security_group_id        = aws_eks_cluster.eks.vpc_config[0].cluster_security_group_id
   source_security_group_id = "sg-0e25d3fcef16c2162"  # Replace this
 }
-~
