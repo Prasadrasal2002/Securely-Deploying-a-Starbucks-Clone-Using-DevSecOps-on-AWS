@@ -19,7 +19,7 @@ resource "aws_eks_cluster" "eks" {
 # EKS Node Group Resource
 resource "aws_eks_node_group" "node_group" {
   cluster_name    = aws_eks_cluster.eks.name
-  node_group_name = "vaishnavi-node-group"
+  node_group_name = "prasad-node-group"
   node_role_arn   = aws_iam_role.eks_node_role.arn
   subnet_ids      = var.subnet_ids
 
