@@ -265,6 +265,70 @@ Go to: https://nvd.nist.gov/developers/request-an-api-key--->2.	Sign up with you
 
 **Proceed with configuring Jenkins pipeline to include these tools and credentials in your CI/CD process.**
 
+**You can now proceed with configuring your Jenkins pipeline to include these tools and credentials in your CI/CD process.**
+```groovy
+
+```groovy
+pipeline {
+    agent any
+    tools {
+        jdk 'jdk17'
+        nodejs 'node16'
+    }
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
+    stages {
+        stage('clean workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                git branch: 'main', url: 'https://github.com/N4si/DevSecOps-Project.git'
+            }
+        }
+        stage("Sonarqube Analysis") {
+            steps {
+                withSonarQubeEnv('sonar-server') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
+                    -Dsonar.projectKey=Netflix'''
+                }
+            }
+        }
+        stage("quality gate") {
+            steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                }
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install"
+            }
+        }
+    }
+}
+```
+
+If you get docker login failed errorr
+```bash
+sudo su
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+```
+
+Pipeline Overview:
+
+![image](https://github.com/user-attachments/assets/db9839e4-28e5-41cb-ae7b-c3866fefad84)
+
+
+
+
+
+
 
 
 
