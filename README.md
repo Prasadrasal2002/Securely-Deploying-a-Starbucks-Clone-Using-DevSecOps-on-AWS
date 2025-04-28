@@ -1,5 +1,13 @@
 # Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS
 
+![image](https://github.com/user-attachments/assets/6585c416-6cb3-4287-b233-8c64be7b8539)
+
+
+**DevSecOps Architecture Diagram!**
+
+![image](https://github.com/user-attachments/assets/f0780fac-44fa-4965-a0d2-b5d6b7dbfc7d)
+
+
 **Initial Setup and Deployment:**
 
 Launch an Instance (Ubuntu, 24.04, t2.large, 25 GB)
@@ -15,8 +23,6 @@ Connect to the instance (Add port : 22 (inbound rule))
 sudo su
 sudo apt update -y
 ```
-
-
 
 **Install Jenkins for Automation:**
 - Install Jenkins on the EC2 instance to automate deployment:
@@ -257,14 +263,9 @@ Go to sonar qube dashboard ---Administration---security---user---click token---g
 Go to: https://nvd.nist.gov/developers/request-an-api-key--->2.	Sign up with your email (free)--->You will get a key in your email--->Manage Jenkins--->Credentials--->select "secret-text"--->paste the NVD key you got from email
 ```
 
-
-
-
-
-
-
-
 **Proceed with configuring Jenkins pipeline to include these tools and credentials in your CI/CD process.**
+
+
 
 
 
