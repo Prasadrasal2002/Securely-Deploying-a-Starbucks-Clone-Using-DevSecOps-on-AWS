@@ -1,4 +1,4 @@
-# Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS
+![image](https://github.com/user-attachments/assets/fccce55c-de2a-4c99-8168-bade720b934c)![image](https://github.com/user-attachments/assets/54c1c7a2-c077-43b1-a941-8bce3454040c)# Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS
 
 ![image](https://github.com/user-attachments/assets/6585c416-6cb3-4287-b233-8c64be7b8539)
 
@@ -454,6 +454,30 @@ sudo systemctl restart jenkins
 Pipeline Overview:
 
 ![image](https://github.com/user-attachments/assets/db9839e4-28e5-41cb-ae7b-c3866fefad84)
+
+
+**Monitoring!**
+
+Used Prometheus/Grafana
+CPU, Memory Monitoring
+
+![image](https://github.com/user-attachments/assets/967ac430-85f2-4d51-8233-3a01c8ee8736)
+
+
+![image](https://github.com/user-attachments/assets/0d57e98a-2c7a-4324-9a51-49b420cfefd7)
+
+
+**Starbucks Frontend – Final Output on Browser!**
+
+![image](https://github.com/user-attachments/assets/3c6d1f18-5398-4e0c-a9a3-7b7823b28609)
+
+
+
+
+
+
+
+
 
 
 
