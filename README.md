@@ -1,4 +1,3 @@
-# Securely-Deploying-a-Starbucks-Clone-Using-DevSecOps-on-AWS
 
 ![image](https://github.com/user-attachments/assets/6585c416-6cb3-4287-b233-8c64be7b8539)
 
