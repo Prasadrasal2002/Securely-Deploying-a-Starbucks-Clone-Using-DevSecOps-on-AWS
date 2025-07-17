@@ -1,5 +1,42 @@
+# ☕ Securely Deploying a Starbucks Clone using DevSecOps on AWS
+
+This project demonstrates the end-to-end deployment of a Starbucks Clone using **DevSecOps practices** with modern CI/CD, security scanning, container orchestration, and monitoring tools on AWS.
+
+
+
 
 ![image](https://github.com/user-attachments/assets/6585c416-6cb3-4287-b233-8c64be7b8539)
+
+
+
+
+
+
+## 💡 Tech Stack Overview
+
+### 🧰 CI/CD & Automation
+- **Jenkins** – CI/CD server for automating builds and deployments
+- **GitHub** – Source code repository
+- **Helm** – Kubernetes package manager for deploying applications
+- **Terraform** – Infrastructure provisioning (EKS and other AWS resources)
+
+### 🛡️ Security & Code Analysis
+- **SonarQube** – Static code analysis and code quality scanning
+- **OWASP Dependency Check** – Detect vulnerable dependencies (via NVD)
+- **Trivy** – Container vulnerability scanner
+- **Docker Scout** – Docker image vulnerability and recommendations
+
+### 🐳 Containerization
+- **Docker** – Build and run container images
+- **DockerHub** – Registry to store Docker images
+
+### ☁️ Cloud Infrastructure
+- **AWS EC2** – Host Jenkins and other tools
+- **AWS EKS (Elastic Kubernetes Service)** – Host the Starbucks app
+
+### 📈 Monitoring & Observability
+- **Prometheus** – Monitoring and alerting
+- **Grafana** – Dashboards for metrics
 
 
 **DevSecOps Architecture Diagram!**
@@ -469,6 +506,14 @@ CPU, Memory Monitoring
 **Starbucks Frontend – Final Output on Browser!**
 
 ![image](https://github.com/user-attachments/assets/3c6d1f18-5398-4e0c-a9a3-7b7823b28609)
+
+
+
+
+## 🌐 Final Deployment
+
+- Starbucks frontend accessible via AWS Load Balancer on EKS
+- Docker image deployed using Helm chart from `starbucks-chart/`
 
 
 
