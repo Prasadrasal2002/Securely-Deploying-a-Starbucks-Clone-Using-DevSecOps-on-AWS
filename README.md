@@ -510,10 +510,19 @@ CPU, Memory Monitoring
 
 
 
+
+
 ## 🌐 Final Deployment
 
 - Starbucks frontend accessible via AWS Load Balancer on EKS
 - Docker image deployed using Helm chart from `starbucks-chart/`
+
+
+
+## 👨‍💻 Author
+
+This project is maintained by [Prasad Rasal](https://github.com/rasalprasad2002).  
+Feel free to check out my other work or get in touch!
 
 
 
